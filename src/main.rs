@@ -1,6 +1,7 @@
 
 use actix_web::{middleware, web, App, HttpServer};
 use sqlx::postgres::PgPool;
+use sqlx;
 
 use config::DatabaseConfig;
 
@@ -9,6 +10,9 @@ mod config;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()>{
+
+
+    dotenv::dotenv().ok();
 
     //load configartion 
     let db_config = DatabaseConfig::from_env().expect("Failed to load config");
@@ -19,7 +23,7 @@ async fn main() -> std::io::Result<()>{
     .expect("Failed to create pool");
 
     //run migration
-    sqlx::migrate().run(&db_pool).await.expect("Failed to run migration");
+    sqlx::migrate!().run(&db_pool).await.expect("Failed to run migrations");
 
     HttpServer::new(move || {
         App::new()
