@@ -6,6 +6,13 @@ use sqlx;
 use config::DatabaseConfig;
 
 mod config;
+mod models;
+mod schemas;
+mod services;
+mod repositories;
+mod routes;
+mod errors;
+mod middleware;
 
 
 #[actix_web::main]
